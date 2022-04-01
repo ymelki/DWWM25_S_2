@@ -28,7 +28,7 @@ class ContactController extends AbstractController
             // on redirige vers la page envoye.html.twig
             // avec la variable data['nom']
             return $this->renderForm('contact/envoye.html.twig', [
-                'data' => $data['nom']
+                'data' => $data
             ]);
         }
         // si non on renvoie vers la page de contact avec le form
