@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\TvaType;
+use App\Service\TvaService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,8 +14,9 @@ class TvaController extends AbstractController
     /**
      * @Route("/tva", name="app_tva")
      */
-    public function index(Request $request): Response
+    public function index(Request $request, TvaService $tva): Response
     {
+        // Recuperer le formulaire issue de TvaType::class
         $formulaire=$this->createForm(TvaType::class);
 
              //Lit les données envoyé via l'url
@@ -25,7 +27,11 @@ class TvaController extends AbstractController
      
                  // on recuperer les donnée envoyé
                  $data=$formulaire->getData();
-                 $calcul=$data['prix']*1.2;
+
+                 // ancienne méthode $calcul=$data['prix']*1.2;
+                 // nouvelle méthode
+                 $calcul=$tva->calcul($data['prix']);
+
                  // on redirige vers la page envoye.html.twig
                  // avec la variable data['nom']
                  return $this->renderForm('tva/envoye.html.twig', [
